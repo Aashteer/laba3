@@ -16,11 +16,11 @@ namespace GameProject.Cards
             Attack = attack;
             Health = health;
         }
-
         public override void Play(Player player, Player opponent)
         {
-            // Проверка на защиту перед тем, как наносить урон
             int damage = Attack;
+
+            // Учитываем защиту противника
             if (opponent.Defense > 0)
             {
                 int blocked = Math.Min(opponent.Defense, damage);
@@ -29,8 +29,12 @@ namespace GameProject.Cards
                 player.Log.Add($"Защита {opponent.Name} заблокировала {blocked} урона.");
             }
 
+            // Наносим оставшийся урон
             opponent.Health -= damage;
             player.Log.Add($"Игрок {player.Name} вызывает существо {Name}, наносящее {damage} урона.");
         }
+
+        
+        }
     }
-}
+

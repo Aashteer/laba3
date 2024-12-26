@@ -23,7 +23,10 @@ namespace GameProject.Players
 
         public void DrawCard(List<Card> deck)
         {
-            if (Hand.Count < 3 && deck.Count > 0)
+            // Убедимся, что у игрока на руке ровно 3 карты
+            if (Hand.Count >= 3) return;
+
+            if (deck.Count > 0)
             {
                 Random rand = new Random();
                 int index = rand.Next(deck.Count);
@@ -31,6 +34,7 @@ namespace GameProject.Players
                 deck.RemoveAt(index);
             }
         }
+
 
         // Проверка на достаточность маны и использование карты
         public bool CanPlayCard(Card card)

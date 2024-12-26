@@ -22,10 +22,15 @@ namespace GameProject.Game
             Player2 = player2;
 
             // Инициализация колоды
-            Deck.Add(new HealSpell("Исцеление", "Лечит героя", 5, 3));
-            Deck.Add(new AttackSpell("Огненный шар", "Наносит урон противнику", 4, 2));
-            Deck.Add(new DefenseSpell("Щит", "Защищает героя", 3, 2));
-            Deck.Add(new Creature("Гоблин", "Существо, наносит урон", 3, 10));
+            Deck.Add(new HealSpell("Малое исцеление", "Восстанавливает 5 здоровья", 5, 2));
+            Deck.Add(new AttackSpell("Огненный шар", "Наносит 6 урона противнику", 6, 3));
+            Deck.Add(new DefenseSpell("Стальной щит", "Увеличивает защиту на 4", 4, 2));
+            Deck.Add(new HealSpell("Большое исцеление", "Восстанавливает 10 здоровья", 10, 4));
+            Deck.Add(new AttackSpell("Молния", "Наносит 8 урона противнику", 8, 5));
+            Deck.Add(new Creature("Гоблин", "Существо с атакой 3", 3, 10));
+            Deck.Add(new Creature("Тролль", "Существо с атакой 5", 5, 15));
+            Deck.Add(new DefenseSpell("Магический барьер", "Блокирует 6 урона", 6, 3));
+
 
             // Определение очередности ходов
             var diceRoll1 = Dice.Next(1, 7);
@@ -58,6 +63,8 @@ namespace GameProject.Game
             var temp = CurrentPlayer;
             CurrentPlayer = Opponent;
             Opponent = temp;
+
         }
     }
+
 }
