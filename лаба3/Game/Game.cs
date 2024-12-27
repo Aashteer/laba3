@@ -1,7 +1,10 @@
 ﻿using GameProject.Cards;
 using GameProject.Players;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System;
+using лаба3.Cards;
 
 namespace GameProject.Game
 {
@@ -21,18 +24,10 @@ namespace GameProject.Game
             Player1 = player1;
             Player2 = player2;
 
-            // Инициализация колоды
-            Deck.Add(new HealSpell("Малое исцеление", "Восстанавливает 5 здоровья", 5, 2));
-            Deck.Add(new AttackSpell("Огненный шар", "Наносит 6 урона противнику", 6, 3));
-            Deck.Add(new DefenseSpell("Стальной щит", "Увеличивает защиту на 4", 4, 2));
-            Deck.Add(new HealSpell("Большое исцеление", "Восстанавливает 10 здоровья", 10, 4));
-            Deck.Add(new AttackSpell("Молния", "Наносит 8 урона противнику", 8, 5));
-            Deck.Add(new Creature("Гоблин", "Существо с атакой 3", 3, 10));
-            Deck.Add(new Creature("Тролль", "Существо с атакой 5", 5, 15));
-            Deck.Add(new DefenseSpell("Магический барьер", "Блокирует 6 урона", 6, 3));
+            // Initialize the deck from JSON
+            LoadCardsFromJson("D:\\cs_projects\\lab3\\лаба3\\database\\cardsDatabase.json");
 
-
-            // Определение очередности ходов
+            
             var diceRoll1 = Dice.Next(1, 7);
             var diceRoll2 = Dice.Next(1, 7);
             if (diceRoll1 >= diceRoll2)
@@ -49,6 +44,38 @@ namespace GameProject.Game
             GameLog.Add($"Кубик: Игрок {Player1.Name} - {diceRoll1}, Игрок {Player2.Name} - {diceRoll2}. Ходит {CurrentPlayer.Name}.");
         }
 
+        private void LoadCardsFromJson(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"Файл не найден: {filePath}");
+            }
+
+            var json = File.ReadAllText(filePath);
+            var cardData = JsonConvert.DeserializeObject<List<CardData>>(json);
+
+            foreach (var card in cardData)
+            {
+                Card cardInstance = null;
+                switch (card.CardType.ToLower())
+                {
+                    case "heal":
+                        cardInstance = new HealCard(card.Id, card.CardName, card.CardDamage, card.Description, card.ImageLink);
+                        break;
+                    case "improve":
+                        cardInstance = new ImproveCard(card.Id, card.CardName, card.CardDamage, card.Description, card.ImageLink);
+                        break;
+                    case "damage":
+                        cardInstance = new DamageCard(card.Id, card.CardName, card.CardDamage, card.Description, card.ImageLink);
+                        break;
+                    default:
+                        throw new InvalidOperationException($"Неизвестный тип карты: {card.CardType}");
+                }
+
+                Deck.Add(cardInstance);
+            }
+        }
+
         public void NextTurn()
         {
             CurrentPlayer.DrawCard(Deck);
@@ -60,11 +87,20 @@ namespace GameProject.Game
                 return;
             }
 
+            // Swap players
             var temp = CurrentPlayer;
             CurrentPlayer = Opponent;
             Opponent = temp;
-
         }
     }
 
+    public class CardData
+    {
+        public int Id { get; set; }
+        public string CardName { get; set; }
+        public int CardDamage { get; set; }
+        public string Description { get; set; }
+        public string ImageLink { get; set; }
+        public string CardType { get; set; }
+    }
 }

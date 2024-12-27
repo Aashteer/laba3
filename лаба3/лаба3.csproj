@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,12 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cards\AttackSpell.cs" />
-    <Compile Include="Cards\BuffCreatureSpell.cs" />
     <Compile Include="Cards\Card.cs" />
-    <Compile Include="Cards\Creature.cs" />
-    <Compile Include="Cards\DefenseSpell.cs" />
     <Compile Include="Cards\HealSpell.cs" />
-    <Compile Include="Cards\Spell.cs" />
+    <Compile Include="Cards\ImproveCard.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Players\Player.cs" />
@@ -58,6 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="database\cardsDatabase.json" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

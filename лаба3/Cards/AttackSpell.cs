@@ -3,23 +3,27 @@
 
 namespace GameProject.Cards
 {
-    public class AttackSpell : Spell
+    public class DamageCard : Card
     {
-        public AttackSpell(string name, string description, int power, int manaCost)
-            : base(name, description, power, manaCost) { }
+        public DamageCard(int id, string name, int cardDamage, string description, string imageLink)
+        {
+            Id = id;
+            Name = name;
+            CardDamage = cardDamage; 
+            Description = description;
+            ImageLink = imageLink;
+            CardType = "damage";
+        }
 
         public override void Play(Player player, Player opponent)
         {
-            if (player.Mana >= ManaCost)
-            {
-                opponent.Health -= Power;
-                player.Mana -= ManaCost;
-                player.Log.Add($"Игрок {player.Name} атакует противника, нанося {Power} урона.");
-            }
-            else
-            {
-                player.Log.Add($"Недостаточно маны для использования {Name}.");
-            }
+            // Calculate the new health after damage
+            int newHealth = opponent.Health - CardDamage;
+
+            
+            opponent.Health = newHealth < 0 ? 0 : newHealth;
+
+            
         }
     }
 }

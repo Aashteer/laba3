@@ -2,7 +2,7 @@
 using GameProject.Players;
 using GameProject.Cards;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace GameProject
 {
@@ -21,6 +21,10 @@ namespace GameProject
             Console.WriteLine("У каждого игрока на руке всегда будет 3 карты: урон, хилл или защита.");
             Console.WriteLine();
 
+            // Инициализация случайного набора карт для каждого игрока
+            player1.InitializeRandomHand(game.Deck);
+            player2.InitializeRandomHand(game.Deck);
+
             // Основной игровой цикл
             while (player1.Health > 0 && player2.Health > 0)
             {
@@ -29,18 +33,12 @@ namespace GameProject
                 PrintPlayerState(game.CurrentPlayer);
                 PrintPlayerState(game.Opponent);
 
-                // Убедимся, что у игрока 3 карты на руке
-                while (game.CurrentPlayer.Hand.Count < 3)
-                {
-                    game.CurrentPlayer.DrawCard(game.Deck);
-                }
-
                 // Показать карты в руке
                 Console.WriteLine("Ваши карты:");
                 for (int i = 0; i < game.CurrentPlayer.Hand.Count; i++)
                 {
                     var card = game.CurrentPlayer.Hand[i];
-                    Console.WriteLine($"{i + 1}. {card.Name} - {card.Description}");
+                    Console.WriteLine($"{i + 1}. {card.Name} - {card.Description} - значение {card.CardDamage}");
                 }
 
                 // Выбор карты
@@ -85,7 +83,6 @@ namespace GameProject
             Console.WriteLine($"Игрок: {player.Name}");
             Console.WriteLine($"  Здоровье: {player.Health}");
             Console.WriteLine($"  Защита: {player.Defense}");
-            Console.WriteLine($"  Мана: {player.Mana}");
             Console.WriteLine();
         }
     }

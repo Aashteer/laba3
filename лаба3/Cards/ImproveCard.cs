@@ -1,25 +1,25 @@
-﻿using GameProject.Players;
+﻿using GameProject.Cards;
+using GameProject.Players;
 
 
-namespace GameProject.Cards
+namespace лаба3.Cards
 {
-    public class HealCard : Card
+    public class ImproveCard : Card
     {
-        public HealCard(int id, string name, int cardDamage, string description, string imageLink)
+        public ImproveCard(int id, string name, int cardDamage, string description, string imageLink)
         {
             Id = id;
             Name = name;
             CardDamage = cardDamage; 
             Description = description;
             ImageLink = imageLink;
-            CardType = "heal";
+            CardType = "improve";
         }
 
         public override void Play(Player player, Player opponent)
         {
             
-            player.Heal(CardDamage);
+            player.Improve(CardDamage);
         }
     }
-
 }
